@@ -19,7 +19,7 @@ export const useCartStore = create<CartState>((set) => ({
   addItem: (incomingItem) =>
     set((state) => {
       const existingId = state.itemIds.find(
-        (id) => state.items[id]?.sku === incomingItem.sku,
+        (id) => id === incomingItem.cartItemId,
       );
 
       if (existingId) {
@@ -86,10 +86,10 @@ export const selectCartItems = (state: CartState) =>
   state.itemIds.map((id) => state.items[id]).filter(Boolean);
 
 export const selectCartCount = (state: CartState) =>
-  state.itemIds.reduce((sum, id) => sum + state.items[id].quantity, 0);
+  state.itemIds.reduce((sum, id) => sum + (state.items[id]?.quantity ?? 0), 0);
 
 export const selectCartSubtotal = (state: CartState) =>
-  state.itemIds.reduce(
-    (sum, id) => sum + state.items[id].quantity * state.items[id].unitPrice,
-    0,
-  );
+  state.itemIds.reduce((sum, id) => {
+    const item = state.items[id];
+    return item ? sum + item.quantity * item.unitPrice : sum;
+  }, 0);
