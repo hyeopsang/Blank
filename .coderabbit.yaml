@@ -2,12 +2,9 @@
 language: "ko-KR"
 
 reviews:
-  profile: "strict_principal_front_end_architect"
-
+  profile: "assertive" # 'strict_principal_front_end_architect' 대신 'assertive'로 변경
   request_changes_workflow: false
-
   high_level_summary: true
-
   poem: false
 
 chat:
